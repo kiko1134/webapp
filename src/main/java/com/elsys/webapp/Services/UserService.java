@@ -24,6 +24,14 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    public int returnID(String username){
+        Optional<User> user = userRepository.findUserByUsername(username);
+        if(user.isEmpty()){
+            return 0;
+        }
+        return user.get().getId();
+    }
+
     public void registerUser(String username, String password){
         Optional<User> user = userRepository.findUserByUsername(username);
         if(user.isPresent()) {

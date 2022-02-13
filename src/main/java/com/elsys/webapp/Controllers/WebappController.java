@@ -1,5 +1,6 @@
 package com.elsys.webapp.Controllers;
 
+import com.elsys.webapp.Models.Note;
 import com.elsys.webapp.Models.User;
 import com.elsys.webapp.Services.NoteService;
 import com.elsys.webapp.Services.UserService;
@@ -46,6 +47,19 @@ public class WebappController {
     @GetMapping("/login-success")
     public String successLogin(Model model, Principal principal){
         model.addAttribute("notes", userService.getUserNotes(principal.getName()));
+        System.out.println(userService.getUserNotes(principal.getName()));
         return "homepage-logged";
+    }
+
+    @GetMapping("/create-note")
+    public String createNote(Model model){
+        return "create-note";
+    }
+
+    @PostMapping("/create-note")
+    public String addNote(Note note, Principal principal){
+        int user_id = userService.returnID(principal.getName());
+        noteService.createNote(note,user_id);
+        return "redirect:/login-success";
     }
 }
