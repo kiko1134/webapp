@@ -8,7 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
+import java.security.Principal;
 
 @Controller
 public class WebappController {
@@ -32,17 +33,19 @@ public class WebappController {
     }
 
     @PostMapping("/register-user")
-    public void registerUser(@RequestBody User user){
+    public String registerUser(User user){
         userService.registerUser(user.getUsername(), user.getPassword());
-    }
-
-    @PostMapping("/login-user")
-    public int loginUser(@RequestBody User user){
-        return userService.loginUser(user.getUsername(),user.getPassword());
+        return "redirect:/";
     }
 
     @GetMapping("/register")
     public String register(Model model){
         return "register";
+    }
+
+    @GetMapping("/login-success")
+    public String successLogin(Model model, Principal principal){
+        model.addAttribute("notes", userService.getUserNotes(principal.getName()));
+        return "homepage-logged";
     }
 }

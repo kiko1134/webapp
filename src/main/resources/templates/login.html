@@ -22,22 +22,21 @@
                             <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
                             <p class="text-white-50 mb-5">Please enter your login and password!</p>
 
-                            <form action = "/login-user", method = "GET">
+                            <div th:if="${param.error}">
+                                Invalid username and password.</div>
+                            <div th:if="${param.logout}">
+                                You have been logged out.</div>
+                            <form th:action="@{/login}" method = "post">
                                 <div class="form-outline form-white mb-4">
                                     <input name = "username" type="text" id="typeEmailX" class="form-control form-control-lg"/>
                                     <label class="form-label" for="typeEmailX">Username</label>
                                 </div>
-
                                 <div class="form-outline form-white mb-4">
                                     <input name = "password" type="password" id="typePasswordX" class="form-control form-control-lg"/>
                                     <label class="form-label" for="typePasswordX">Password</label>
                                 </div>
-
-
                                 <br/><br/>
-
                                 <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
-
                             </form>
                             <div class="d-flex justify-content-center text-center mt-4 pt-1">
                                 <a href="#!" class="text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
