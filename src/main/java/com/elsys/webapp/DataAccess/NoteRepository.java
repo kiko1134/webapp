@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NoteRepository extends CrudRepository<Note, Integer> {
+    Iterable<Note> findAllByUserId(int user_id);
 }

@@ -52,12 +52,4 @@ public class UserService {
 
         return new CustomUserDetails(user.get());
     }
-
-    public List<Note> getUserNotes(String username){
-        Optional<User> user = userRepository.findUserByUsername(username);
-        if (user.isEmpty())
-            return List.of();
-
-        return user.get().getNotes();
-    }
 }

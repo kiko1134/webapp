@@ -5,6 +5,7 @@ import com.elsys.webapp.Models.User;
 import com.elsys.webapp.Services.NoteService;
 import com.elsys.webapp.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,21 +46,25 @@ public class WebappController {
     }
 
     @GetMapping("/login-success")
-    public String successLogin(Model model, Principal principal){
-        model.addAttribute("notes", userService.getUserNotes(principal.getName()));
-        System.out.println(userService.getUserNotes(principal.getName()));
+    public String successLogin(Model model){
+        Principal principal = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("notes", noteService.getUserNotes(principal.getName()));
+        for (Note n: noteService.getUserNotes(principal.getName())){
+            System.out.println(n.getContent());
+        }
         return "homepage-logged";
     }
 
-    @GetMapping("/create-note")
+    @GetMapping("/create")
     public String createNote(Model model){
         return "create-note";
     }
 
     @PostMapping("/create-note")
-    public String addNote(Note note, Principal principal){
+    public String createNode(Note note){
+        Principal principal = SecurityContextHolder.getContext().getAuthentication();
         int user_id = userService.returnID(principal.getName());
-        noteService.createNote(note,user_id);
+        noteService.createNote(note, user_id);
         return "redirect:/login-success";
     }
 }

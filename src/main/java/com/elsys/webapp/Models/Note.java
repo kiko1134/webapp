@@ -1,5 +1,6 @@
 package com.elsys.webapp.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,16 +15,15 @@ public class Note {
     private int id;
     private String title;
     private String content;
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+    @JsonIgnore
+    private int userId;
 
     public Note(String title, String content){
         this.title = title;
         this.content = content;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserID(int userId) {
+        this.userId = userId;
     }
 }

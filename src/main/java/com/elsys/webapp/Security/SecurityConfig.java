@@ -33,13 +33,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth
                 .authenticationProvider(getProvider());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http
+                .headers()
+                    .xssProtection()
+                    .and()
+                    .contentSecurityPolicy("script-src 'self'");
+
         http
                 .csrf().disable()
                 .authorizeRequests()

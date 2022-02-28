@@ -28,11 +28,19 @@ public class NoteService {
         if (user.isEmpty())
             return;
 
-        note.setUser(user.get());
+        note.setUserID(user_id);
         noteRepository.save(note);
     }
 
     public void deleteNote(int note_id){
         noteRepository.deleteAllById(List.of(note_id));
+    }
+
+    public Iterable<Note> getUserNotes(String username){
+        Optional<User> user = userRepository.findUserByUsername(username);
+        if (user.isEmpty())
+            return List.of();
+
+        return noteRepository.findAllByUserId(user.get().getId());
     }
 }
